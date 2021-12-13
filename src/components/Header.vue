@@ -102,25 +102,25 @@
               >
                 Sign In
               </button>
-              <div class="modal-footer">
+              <div class="modal_footer">
                 <button
                   type="submit"
                   class="btn-xl btn-success mt-3"
                   v-on:click="clickForgotPassword"
                   data-backdrop="static"
                   data-keyboard="false"
+                  style="flex: 0.45"
                 >
                   ForgotPassword
                 </button>
-                <!-- <a href="#" class="dropdown-item text-right" @click="clickedSingup"
-              >Sign Up</a
-            > -->
+                <div style="flex: 0.1"></div>
                 <button
                   type="submit"
                   class="btn-xl btn-success mt-3"
                   v-on:click="clickedSingup"
                   data-backdrop="static"
                   data-keyboard="false"
+                  style="flex: 0.45"
                 >
                   Register
                 </button>
@@ -290,5 +290,10 @@ form .btn-xl.btn-success.mt-3 {
 
 .user:hover {
   text-decoration: underline;
+}
+.modal_footer {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
 }
 </style>
