@@ -45,9 +45,8 @@
     <div
       class="modal fade"
       id="userModal"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
+      data-backdrop="static"
+      data-keyboard="false"
     >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -62,7 +61,7 @@
             >
               <span>x</span>
             </button>
-            <form class="px-3 py-2">
+            <form class="px-3 py-2" v-on:submit="clickedSingup">
               <div class="form-group">
                 <label for="exampleDropdownFormEmail" style="color: blue"
                   >Email address</label
@@ -94,11 +93,9 @@
                 >
               </div>
               <button
-                type="submit"
+                type="button"
                 class="btn-xl btn-success mt-3"
                 v-on:click="signin"
-                data-backdrop="static"
-                data-keyboard="false"
               >
                 Sign In
               </button>
@@ -106,9 +103,7 @@
                 <button
                   type="submit"
                   class="btn-xl btn-success mt-3"
-                  v-on:click="clickForgotPassword"
-                  data-backdrop="static"
-                  data-keyboard="false"
+                  v-on:click="promiss(clickForgotPassword)"
                   style="flex: 0.45"
                 >
                   ForgotPassword
@@ -117,9 +112,6 @@
                 <button
                   type="submit"
                   class="btn-xl btn-success mt-3"
-                  v-on:click="clickedSingup"
-                  data-backdrop="static"
-                  data-keyboard="false"
                   style="flex: 0.45"
                 >
                   Register
@@ -147,55 +139,67 @@ export default {
       return "hello";
     },
     async signin() {
-      const userEmail = document.getElementById("emailId").value;
+      const email = document.getElementById("emailId").value;
       const password = document.getElementById("passwordId").value;
       const checked = document.getElementById("checkbox").checked;
 
-      console.log("userEmail: ", userEmail);
+      console.log("email: ", email);
       console.log("password: ", password);
       console.log("checkbox: ", checked);
 
-      const result = await fetch("http://localhost:3000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userEmail,
-          password,
-          checked,
-        }),
-      })
-        .then((res) => res.json())
-        .catch((err) => console.log(err));
-
-      console.log(result);
-    },
-    clickForgotPassword() {
-      console.log("clicked forgot password");
-    },
-    async clickedSingup() {
-      console.log("this is singup button");
-      const userEmail = document.getElementById("emailId").value;
-      const password = document.getElementById("passwordId").value;
-      const checked = document.getElementById("checkbox").checked;
-
-      console.log("userEmail: ", userEmail.length);
-      if (userEmail.length > 0 && password.length > 0) {
-        const result = await fetch("http://localhost:3000/api/register", {
+      if (email.length > 0 && password.length > 0) {
+        fetch("http://localhost:3000/api/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userEmail,
+            email,
             password,
             checked,
           }),
         })
-          .then((res) => res.json())
+          .then((response) => {
+            console.log(response);
+          })
           .catch((err) => console.log(err));
-        console.log(result);
+      } else {
+        console.log(
+          "Incorrect the input or password, please check the correct form"
+        );
+      }
+    },
+    clickForgotPassword() {
+      console.log("clicked forgot password");
+    },
+    async clickedSingup(e) {
+      e.preventDefault();
+      const email = document.getElementById("emailId").value;
+      const password = document.getElementById("passwordId").value;
+      const checked = document.getElementById("checkbox").checked;
+
+      console.log("email: ", email.length);
+      if (email.length > 0 && password.length > 0) {
+        const result = fetch("http://localhost:3000/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            checked,
+          }),
+        })
+          .then((res) => {
+            if (res.statusText === "OK") {
+              //everything is okay
+              alert("Success!");
+            } else {
+              alert(result.err);
+            }
+          })
+          .catch((error) => console.log(error));
       } else {
         console.log("Input or password is not correct");
       }
