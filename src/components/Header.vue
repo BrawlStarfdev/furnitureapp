@@ -35,7 +35,7 @@
           Sign In
         </h5>
       </div>
-      <div class="bag" @click="openCart">
+      <div class="bag" v-on:click.prevent="showPanel">
         <img src="@/assets/cart.svg" class="pb-1" />
         <span class="mb-3" v-if="this.bagItemscount > 0">{{
           bagItemscount
@@ -92,11 +92,7 @@
                   >Remember Me</label
                 >
               </div>
-              <button
-                type="button"
-                class="btn-xl btn-success mt-3"
-                v-on:click="signin"
-              >
+              <button type="submit" class="btn-xl btn-success mt-3">
                 Sign In
               </button>
               <div class="modal_footer">
@@ -122,23 +118,54 @@
         </div>
       </div>
     </div>
+    <Modal
+      :openModal="openModal"
+      :successModal="successModal"
+      :serverError="serverError"
+      :closeModal="closeModal"
+      :loginMode="loginMode"
+    />
+    <!-- <OpenCartModal v-if="openCartisShowModal" /> -->
+    <FragModal v-if="openCartisShowModal" />
+    <slideout-panel></slideout-panel>
   </div>
 </template>
 
 <script>
+import Modal from "./Modal/Modal.vue";
+// import OpenCartModal from "./Modal/OpenCartModal.vue";
+import FragModal from "./Modal/FragModal.vue";
 export default {
   name: "Header",
+  components: {
+    Modal,
+    // OpenCartModal,
+    FragModal,
+  },
+  data() {
+    return {
+      openModal: false,
+      successModal: false,
+      serverError: false,
+      loginMode: false,
+      openCartisShowModal: false,
+    };
+  },
   computed: {
     bagItemscount() {
       return this.$store.getters.itemsNumber;
     },
   },
+
   methods: {
     openCart() {
-      console.log("openCart: ", "this is openCart");
-      return "hello";
+      console.log("openCart: ", this.openCartisShowModal);
+      this.openCartisShowModal = !this.openCartisShowModal;
     },
-    async signin() {
+
+    // Login Functions
+    async signin(e) {
+      e.preventDefault();
       const email = document.getElementById("emailId").value;
       const password = document.getElementById("passwordId").value;
       const checked = document.getElementById("checkbox").checked;
@@ -148,6 +175,7 @@ export default {
       console.log("checkbox: ", checked);
 
       if (email.length > 0 && password.length > 0) {
+        this.loginMode = true;
         fetch("http://localhost:3000/api/login", {
           method: "POST",
           headers: {
@@ -159,19 +187,32 @@ export default {
             checked,
           }),
         })
-          .then((response) => {
-            console.log(response);
+          .then((res) => res.json())
+          .then((res) => {
+            console.log(res);
+            if (res.status === "ok") {
+              alert("Success");
+            } else {
+              alert("Email or Password is wrong");
+            }
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            console.log(err);
+            alert("Server has been dead, Please referesh webpage or try later");
+          });
       } else {
         console.log(
           "Incorrect the input or password, please check the correct form"
         );
+        this.openModal = true;
+        this.serverError = true;
       }
     },
     clickForgotPassword() {
       console.log("clicked forgot password");
     },
+
+    // Register function
     async clickedSingup(e) {
       e.preventDefault();
       const email = document.getElementById("emailId").value;
@@ -180,7 +221,7 @@ export default {
 
       console.log("email: ", email.length);
       if (email.length > 0 && password.length > 0) {
-        const result = fetch("http://localhost:3000/api/register", {
+        fetch("http://localhost:3000/api/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -191,19 +232,44 @@ export default {
             checked,
           }),
         })
+          .then((res) => res.json())
           .then((res) => {
-            if (res.statusText === "OK") {
-              //everything is okay
-              alert("Success!");
+            if (res.status === "success") {
+              console.log("success");
+              this.openModal = true;
+              this.successModal = true;
             } else {
-              alert(result.err);
+              console.log("failed");
+              this.openModal = true;
+              this.successModal = false;
             }
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            console.log("catch error: ", error);
+            this.openModal = true;
+            this.serverError = true;
+          });
       } else {
         console.log("Input or password is not correct");
       }
     },
+    //Close Modal
+    closeModal() {
+      console.log("close modal");
+      // this.openModal = false;
+    },
+  },
+
+  showPanel() {
+    const panel = this.$showPanel({
+      component: "Header",
+      openOn: "right",
+      props: {},
+    });
+
+    panel.promise.then((result) => {
+      console.log(result);
+    });
   },
 };
 </script>
@@ -285,6 +351,7 @@ form .btn-xl.btn-success.mt-3 {
   cursor: pointer;
   width: 30px;
   height: auto;
+  color: red;
 }
 
 .user {

@@ -3,7 +3,7 @@
     <Header />
     <router-view />
     <Newsletter v-if="$route.path != '/Contact'" />
-
+    <slideout-panel></slideout-panel>
     <Footer />
   </div>
 </template>
@@ -12,6 +12,8 @@
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import Newsletter from "./components/Newsletter.vue";
+
+window.vue2PanelDebug = true;
 
 export default {
   name: "App",

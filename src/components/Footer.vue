@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <div class="row justify-content-between">
+      <div class="row justify-content-between">·
         <div class="col-xl-7 col-lg-6 col-md-6 col-sm-6 col-6">
           <div class="tiny-footer">
             <p>Copyright © All Rights Reserved 2021</p>
