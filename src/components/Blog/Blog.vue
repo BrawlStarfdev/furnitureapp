@@ -6,13 +6,14 @@
       v-bind:key="post.id"
     >
       <h2>{{ post.blogTitle }}</h2>
+      <br /><br /><br />
       <p>{{ post.blogContent }}</p>
     </div>
   </div>
   <div v-else class="container grid">
     <br /><br /><br />
     <h1 style="color: red">Server has been not started. Please try again!</h1>
-    <br /><br /><br />
+    <br /><br /><br /><br />
   </div>
 </template>
 
@@ -48,10 +49,36 @@ export default {
     },
   },
 
+  // computed(){
+  //   this.$props.checked(){
+  //     return true
+  //   }
+  // }
+
   created() {
     this.getData();
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+}
+
+.subContainer {
+  flex-direction: row;
+  justify-items: center;
+}
+
+.subText {
+  flex: 0.5;
+  text-decoration: cadetblue;
+  text-justify: kashida;
+  align-items: center;
+  font-size: 0.5rem;
+}
+</style>

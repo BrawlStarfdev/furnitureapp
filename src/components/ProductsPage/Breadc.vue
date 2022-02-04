@@ -32,4 +32,10 @@ export default {
   text-decoration: none !important;
   color: lightseagreen;
 }
+
+.breadcrumbd > li > b {
+  text-align: center !important;
+  text-decoration: aqua;
+  font-size: 10px;
+}
 </style>

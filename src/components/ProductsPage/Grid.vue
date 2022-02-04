@@ -165,7 +165,7 @@ export default {
   data() {
     return {
       cards: [],
-      sortButton: "Default",
+      sortButton: "Normal",
       showCards: 6,
     };
   },
@@ -209,8 +209,14 @@ export default {
       return this.cards.slice(0, this.showCards);
     },
     it() {
+      console.log(this.$store.state.items);
       return this.$store.state.items;
     },
+    // confirm Checked items on Products Page
+    // confirmChecked() {
+    //   if (this.$store.checkedItem.itemNumber) {
+    //     return false;
+    //   }
   },
 };
 </script>

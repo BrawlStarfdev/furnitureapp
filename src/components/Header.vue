@@ -32,14 +32,12 @@
           data-toggle="modal"
           data-target="#userModal"
         >
-          Sign In
+          SIGN IN
         </h5>
       </div>
       <div class="bag" v-on:click.prevent="showPanel">
         <img src="@/assets/cart.svg" class="pb-1" />
-        <span class="mb-3" v-if="this.bagItemscount > 0">{{
-          bagItemscount
-        }}</span>
+        <span class="mb-3" v-if="this.bagItemscount > 0">{{ BAG_COUNT }}</span>
       </div>
     </nav>
     <div
@@ -59,7 +57,7 @@
               aria-label="close"
               aria-hidden="true"
             >
-              <span>x</span>
+              <span>X</span>
             </button>
             <form class="px-3 py-2" v-on:submit="clickedSingup">
               <div class="form-group">
@@ -69,7 +67,7 @@
                 <input
                   type="email"
                   class="form-control"
-                  placeholder="email@example.com"
+                  placeholder="email_example@example.com"
                   id="emailId"
                   required
                 />

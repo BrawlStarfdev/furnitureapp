@@ -54,16 +54,15 @@
         </div>
       </div>
 
-      <div class="row justify-content-between">·
+      <div class="row justify-content-between">
         <div class="col-xl-7 col-lg-6 col-md-6 col-sm-6 col-6">
           <div class="tiny-footer">
-            <p>Copyright © All Rights Reserved 2021</p>
+            <p style="color: blue">Copyright © All Rights Reserved 2021</p>
           </div>
         </div>
 
         <div class="col-4 col-xl-4 col-xg-4 col-md-4 col-sm-4 text-right">
           <div class="social-info">
-            <strong>Our social</strong>
             <img class="twitter" src="@/assets/twitter.png" />
             <img class="pinterest" src="@/assets/pinterest.png" />
             <img class="facebook" src="@/assets/facebook.png" />
@@ -106,5 +105,9 @@ export default {};
 
 .social-info > img:hover {
   opacity: 0.7;
+}
+
+.tiny-footer {
+  color: "red";
 }
 </style>

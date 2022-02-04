@@ -162,4 +162,11 @@ export default new Vuex.Store({
       return state.inforPage.push(n);
     },
   },
+
+  checkedItems: {
+    checked(state) {
+      console.log(state);
+      return state.item.push;
+    },
+  },
 });
